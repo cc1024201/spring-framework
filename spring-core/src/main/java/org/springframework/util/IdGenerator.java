@@ -1,17 +1,15 @@
 /*
- * Copyright 2002-2020 the original author or authors.
+ * 版权 2002-2020 原作者或作者。
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * 根据 Apache 许可证 2.0 版（“许可证”）获得许可；
+ * 除非符合许可证，否则不得使用此文件。
+ * 您可以在以下位置获取许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 除非适用法律要求或书面同意，否则在许可证下分发的软件
+ * 将按“原样”基础分发，不附带任何明示或暗示的担保或条件。
+ * 有关许可证所规定的权限和限制的详细信息，请参阅许可证。
  */
 
 package org.springframework.util;
@@ -19,7 +17,7 @@ package org.springframework.util;
 import java.util.UUID;
 
 /**
- * Contract for generating universally unique identifiers ({@link UUID UUIDs}).
+ * 生成通用唯一标识符（{@link UUID UUIDs}）的合同。
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -28,8 +26,8 @@ import java.util.UUID;
 public interface IdGenerator {
 
 	/**
-	 * Generate a new identifier.
-	 * @return the generated identifier
+	 * 生成新的标识符。
+	 * @return 生成的标识符
 	 */
 	UUID generateId();
 

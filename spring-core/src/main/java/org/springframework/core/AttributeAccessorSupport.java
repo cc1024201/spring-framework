@@ -1,17 +1,15 @@
 /*
- * Copyright 2002-2023 the original author or authors.
+ * 版权 2002-2023 原作者或作者。
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * 根据 Apache 许可证 2.0 版（“许可证”）获得许可；
+ * 除非符合许可证，否则不得使用此文件。
+ * 您可以在以下位置获得许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 除非适用法律要求或书面同意，否则在许可证下分发的软件
+ * 将按“原样”基础分发，不附带任何明示或暗示的担保或条件。
+ * 有关许可证所规定的权限和限制的详细信息，请参阅许可证。
  */
 
 package org.springframework.core;
@@ -26,10 +24,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Support class for {@link AttributeAccessor AttributeAccessors}, providing
- * a base implementation of all methods. To be extended by subclasses.
+ * {@link AttributeAccessor AttributeAccessors} 的支持类，为所有方法提供基本实现。由子类扩展。
  *
- * <p>{@link Serializable} if subclasses and all attribute values are {@link Serializable}.
+ * <p>如果子类和所有属性值都是 {@link Serializable}，则为 {@link Serializable}。
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -39,13 +36,13 @@ import org.springframework.util.StringUtils;
 @SuppressWarnings("serial")
 public abstract class AttributeAccessorSupport implements AttributeAccessor, Serializable {
 
-	/** Map with String keys and Object values. */
+	/** 具有 String 键和 Object 值的 Map。 */
 	private final Map<String, Object> attributes = new LinkedHashMap<>();
 
 
 	@Override
 	public void setAttribute(String name, @Nullable Object value) {
-		Assert.notNull(name, "Name must not be null");
+		Assert.notNull(name, "名称不能为空");
 		if (value != null) {
 			this.attributes.put(name, value);
 		}
@@ -57,31 +54,31 @@ public abstract class AttributeAccessorSupport implements AttributeAccessor, Ser
 	@Override
 	@Nullable
 	public Object getAttribute(String name) {
-		Assert.notNull(name, "Name must not be null");
+		Assert.notNull(name, "名称不能为空");
 		return this.attributes.get(name);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T computeAttribute(String name, Function<String, T> computeFunction) {
-		Assert.notNull(name, "Name must not be null");
-		Assert.notNull(computeFunction, "Compute function must not be null");
+		Assert.notNull(name, "名称不能为空");
+		Assert.notNull(computeFunction, "计算函数不能为空");
 		Object value = this.attributes.computeIfAbsent(name, computeFunction);
 		Assert.state(value != null,
-				() -> String.format("Compute function must not return null for attribute named '%s'", name));
+				() -> String.format("计算函数不能为名为 '%s' 的属性返回 null", name));
 		return (T) value;
 	}
 
 	@Override
 	@Nullable
 	public Object removeAttribute(String name) {
-		Assert.notNull(name, "Name must not be null");
+		Assert.notNull(name, "名称不能为空");
 		return this.attributes.remove(name);
 	}
 
 	@Override
 	public boolean hasAttribute(String name) {
-		Assert.notNull(name, "Name must not be null");
+		Assert.notNull(name, "名称不能为空");
 		return this.attributes.containsKey(name);
 	}
 
@@ -92,11 +89,11 @@ public abstract class AttributeAccessorSupport implements AttributeAccessor, Ser
 
 
 	/**
-	 * Copy the attributes from the supplied AttributeAccessor to this accessor.
-	 * @param source the AttributeAccessor to copy from
+	 * 从提供的 AttributeAccessor 复制属性到此访问器。
+	 * @param source 要从中复制的 AttributeAccessor
 	 */
 	protected void copyAttributesFrom(AttributeAccessor source) {
-		Assert.notNull(source, "Source must not be null");
+		Assert.notNull(source, "源不能为空");
 		String[] attributeNames = source.attributeNames();
 		for (String attributeName : attributeNames) {
 			setAttribute(attributeName, source.getAttribute(attributeName));

@@ -1,17 +1,16 @@
 /*
- * Copyright 2002-2022 the original author or authors.
+ * 版权 2002-2022 原作者或作者。
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * 根据Apache许可证2.0版（“许可证”）授权；
+ * 除非符合许可证，否则不得使用此文件。
+ * 您可以在以下位置获得许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 除非适用法律要求或书面同意，否则软件
+ * 根据许可证分发的是“按原样”基础，
+ * 不作任何明示或暗示的保证或条件。
+ * 有关许可证下的权限和限制的详细信息，请参阅许可证。
  */
 
 package org.springframework.util;
@@ -23,34 +22,30 @@ import java.util.function.Supplier;
 import org.springframework.lang.Nullable;
 
 /**
- * Assertion utility class that assists in validating arguments.
+ * 断言实用程序类，用于验证参数。
  *
- * <p>Useful for identifying programmer errors early and clearly at runtime.
+ * <p>在运行时早期清晰地识别程序员错误。
  *
- * <p>For example, if the contract of a public method states it does not
- * allow {@code null} arguments, {@code Assert} can be used to validate that
- * contract. Doing this clearly indicates a contract violation when it
- * occurs and protects the class's invariants.
+ * <p>例如，如果公共方法的合同规定不允许{@code null}参数，
+ * 可以使用{@code Assert}来验证该合同。这样做清楚地表明了合同违规，
+ * 并保护了类的不变式。
  *
- * <p>Typically used to validate method arguments rather than configuration
- * properties, to check for cases that are usually programmer errors rather
- * than configuration errors. In contrast to configuration initialization
- * code, there is usually no point in falling back to defaults in such methods.
+ * <p>通常用于验证方法参数而不是配置属性，
+ * 以检查通常是程序员错误而不是配置错误的情况。与配置初始化代码相反，
+ * 这些方法通常没有回退到默认值的必要。
  *
- * <p>This class is similar to JUnit's assertion library. If an argument value is
- * deemed invalid, an {@link IllegalArgumentException} is thrown (typically).
- * For example:
+ * <p>此类类似于JUnit的断言库。如果参数值被认为是无效的，
+ * 通常会抛出{@link IllegalArgumentException}。例如：
  *
  * <pre class="code">
- * Assert.notNull(clazz, "The class must not be null");
- * Assert.isTrue(i &gt; 0, "The value must be greater than zero");</pre>
+ * Assert.notNull(clazz, "类不能为空");
+ * Assert.isTrue(i &gt; 0, "值必须大于零");</pre>
  *
- * <p>Mainly for internal use within the framework; for a more comprehensive suite
- * of assertion utilities consider {@code org.apache.commons.lang3.Validate} from
- * <a href="https://commons.apache.org/proper/commons-lang/">Apache Commons Lang</a>,
- * Google Guava's
- * <a href="https://github.com/google/guava/wiki/PreconditionsExplained">Preconditions</a>,
- * or similar third-party libraries.
+ * <p>主要用于框架内部；对于更全面的断言实用程序套件，
+ * 请考虑从<a href="https://commons.apache.org/proper/commons-lang/">Apache Commons Lang</a>的
+ * {@code org.apache.commons.lang3.Validate}，Google Guava的
+ * <a href="https://github.com/google/guava/wiki/PreconditionsExplained">Preconditions</a>，
+ * 或类似的第三方库。
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -62,14 +57,12 @@ import org.springframework.lang.Nullable;
 public abstract class Assert {
 
 	/**
-	 * Assert a boolean expression, throwing an {@code IllegalStateException}
-	 * if the expression evaluates to {@code false}.
-	 * <p>Call {@link #isTrue} if you wish to throw an {@code IllegalArgumentException}
-	 * on an assertion failure.
-	 * <pre class="code">Assert.state(id == null, "The id property must not already be initialized");</pre>
-	 * @param expression a boolean expression
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalStateException if {@code expression} is {@code false}
+	 * 断言一个布尔表达式，如果表达式计算为{@code false}，则抛出一个{@code IllegalStateException}。
+	 * <p>如果您希望在断言失败时抛出一个{@code IllegalArgumentException}，请调用{@link #isTrue}。
+	 * <pre class="code">Assert.state(id == null, "id属性不能已经初始化");</pre>
+	 * @param expression 一个布尔表达式
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalStateException 如果{@code expression}为{@code false}
 	 */
 	public static void state(boolean expression, String message) {
 		if (!expression) {
@@ -78,18 +71,15 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert a boolean expression, throwing an {@code IllegalStateException}
-	 * if the expression evaluates to {@code false}.
-	 * <p>Call {@link #isTrue} if you wish to throw an {@code IllegalArgumentException}
-	 * on an assertion failure.
+	 * 断言一个布尔表达式，如果表达式计算为{@code false}，则抛出一个{@code IllegalStateException}。
+	 * <p>如果您希望在断言失败时抛出一个{@code IllegalArgumentException}，请调用{@link #isTrue}。
 	 * <pre class="code">
 	 * Assert.state(entity.getId() == null,
-	 *     () -&gt; "ID for entity " + entity.getName() + " must not already be initialized");
+	 *     () -&gt; "实体 " + entity.getName() + " 的ID不能已经初始化");
 	 * </pre>
-	 * @param expression a boolean expression
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalStateException if {@code expression} is {@code false}
+	 * @param expression 一个布尔表达式
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalStateException 如果{@code expression}为{@code false}
 	 * @since 5.0
 	 */
 	public static void state(boolean expression, Supplier<String> messageSupplier) {
@@ -99,23 +89,21 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert a boolean expression, throwing an {@code IllegalStateException}
-	 * if the expression evaluates to {@code false}.
-	 * @deprecated as of 4.3.7, in favor of {@link #state(boolean, String)};
-	 * to be removed in 6.1
+	 * 断言一个布尔表达式，如果表达式计算为{@code false}，则抛出一个{@code IllegalStateException}。
+	 * @deprecated 自4.3.7起，改用{@link #state(boolean, String)}；
+	 * 在6.1中删除
 	 */
 	@Deprecated(forRemoval = true)
 	public static void state(boolean expression) {
-		state(expression, "[Assertion failed] - this state invariant must be true");
+		state(expression, "[断言失败] - 此状态不变量必须为真");
 	}
 
 	/**
-	 * Assert a boolean expression, throwing an {@code IllegalArgumentException}
-	 * if the expression evaluates to {@code false}.
-	 * <pre class="code">Assert.isTrue(i &gt; 0, "The value must be greater than zero");</pre>
-	 * @param expression a boolean expression
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if {@code expression} is {@code false}
+	 * 断言一个布尔表达式，如果表达式计算为{@code false}，则抛出一个{@code IllegalArgumentException}。
+	 * <pre class="code">Assert.isTrue(i &gt; 0, "值必须大于零");</pre>
+	 * @param expression 一个布尔表达式
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果{@code expression}为{@code false}
 	 */
 	public static void isTrue(boolean expression, String message) {
 		if (!expression) {
@@ -124,15 +112,13 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert a boolean expression, throwing an {@code IllegalArgumentException}
-	 * if the expression evaluates to {@code false}.
+	 * 断言一个布尔表达式，如果表达式计算为{@code false}，则抛出一个{@code IllegalArgumentException}。
 	 * <pre class="code">
-	 * Assert.isTrue(i &gt; 0, () -&gt; "The value '" + i + "' must be greater than zero");
+	 * Assert.isTrue(i &gt; 0, () -&gt; "值 '" + i + "' 必须大于零");
 	 * </pre>
-	 * @param expression a boolean expression
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if {@code expression} is {@code false}
+	 * @param expression 一个布尔表达式
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果{@code expression}为{@code false}
 	 * @since 5.0
 	 */
 	public static void isTrue(boolean expression, Supplier<String> messageSupplier) {
@@ -142,22 +128,21 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert a boolean expression, throwing an {@code IllegalArgumentException}
-	 * if the expression evaluates to {@code false}.
-	 * @deprecated as of 4.3.7, in favor of {@link #isTrue(boolean, String)};
-	 * to be removed in 6.1
+	 * 断言一个布尔表达式，如果表达式计算为{@code false}，则抛出一个{@code IllegalArgumentException}。
+	 * @deprecated 自4.3.7起，改用{@link #isTrue(boolean, String)}；
+	 * 在6.1中删除
 	 */
 	@Deprecated(forRemoval = true)
 	public static void isTrue(boolean expression) {
-		isTrue(expression, "[Assertion failed] - this expression must be true");
+		isTrue(expression, "[断言失败] - 此表达式必须为真");
 	}
 
 	/**
-	 * Assert that an object is {@code null}.
-	 * <pre class="code">Assert.isNull(value, "The value must be null");</pre>
-	 * @param object the object to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the object is not {@code null}
+	 * 断言一个对象是{@code null}。
+	 * <pre class="code">Assert.isNull(value, "值必须为null");</pre>
+	 * @param object 要检查的对象
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果对象不是{@code null}
 	 */
 	public static void isNull(@Nullable Object object, String message) {
 		if (object != null) {
@@ -166,14 +151,13 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that an object is {@code null}.
+	 * 断言一个对象是{@code null}。
 	 * <pre class="code">
-	 * Assert.isNull(value, () -&gt; "The value '" + value + "' must be null");
+	 * Assert.isNull(value, () -&gt; "值 '" + value + "' 必须为null");
 	 * </pre>
-	 * @param object the object to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the object is not {@code null}
+	 * @param object 要检查的对象
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果对象不是{@code null}
 	 * @since 5.0
 	 */
 	public static void isNull(@Nullable Object object, Supplier<String> messageSupplier) {
@@ -183,21 +167,22 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that an object is {@code null}.
-	 * @deprecated as of 4.3.7, in favor of {@link #isNull(Object, String)};
-	 * to be removed in 6.1
+	 * 断言一个对象是{@code null}。
+	 * @deprecated 自4.3.7起，改用{@link #isNull(Object, String)}；
+	 * 在6.1中删除
 	 */
 	@Deprecated(forRemoval = true)
 	public static void isNull(@Nullable Object object) {
-		isNull(object, "[Assertion failed] - the object argument must be null");
+		isNull(object, "[断言失败] - 对象参数必须为null");
 	}
 
 	/**
-	 * Assert that an object is not {@code null}.
-	 * <pre class="code">Assert.notNull(clazz, "The class must not be null");</pre>
-	 * @param object the object to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the object is {@code null}
+	 * 断言一个对象不是{@code null}。
+	 * <pre class="code">Assert.notNull(clazz, "类不能为空");</pre>
+	 * @param object 要检查的对象
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果对象是{@code null}
+	 * @since 5.0
 	 */
 	public static void notNull(@Nullable Object object, String message) {
 		if (object == null) {
@@ -206,15 +191,13 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that an object is not {@code null}.
+	 * 断言一个对象不是{@code null}。
 	 * <pre class="code">
-	 * Assert.notNull(entity.getId(),
-	 *     () -&gt; "ID for entity " + entity.getName() + " must not be null");
+	 * Assert.notNull(clazz, () -&gt; "类 '" + className + "' 不能为空");
 	 * </pre>
-	 * @param object the object to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the object is {@code null}
+	 * @param object 要检查的对象
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果对象是{@code null}
 	 * @since 5.0
 	 */
 	public static void notNull(@Nullable Object object, Supplier<String> messageSupplier) {
@@ -224,22 +207,22 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that an object is not {@code null}.
-	 * @deprecated as of 4.3.7, in favor of {@link #notNull(Object, String)};
-	 * to be removed in 6.1
+	 * 断言一个对象不是{@code null}。
+	 * @deprecated 自4.3.7起，改用{@link #notNull(Object, String)}；
+	 * 在6.1中删除
 	 */
 	@Deprecated(forRemoval = true)
 	public static void notNull(@Nullable Object object) {
-		notNull(object, "[Assertion failed] - this argument is required; it must not be null");
+		notNull(object, "[断言失败] - 此参数是必需的；它不能为null");
 	}
 
 	/**
-	 * Assert that the given String is not empty; that is,
-	 * it must not be {@code null} and not the empty String.
-	 * <pre class="code">Assert.hasLength(name, "Name must not be empty");</pre>
-	 * @param text the String to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the text is empty
+	 * 断言给定的字符串不为空；也就是说，
+	 * 它不能为{@code null}，也不能是空字符串。
+	 * <pre class="code">Assert.hasLength(name, "名称不能为空");</pre>
+	 * @param text 要检查的字符串
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果文本为空
 	 * @see StringUtils#hasLength
 	 */
 	public static void hasLength(@Nullable String text, String message) {
@@ -249,16 +232,15 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that the given String is not empty; that is,
-	 * it must not be {@code null} and not the empty String.
+	 * 断言给定的字符串不为空；也就是说，
+	 * 它不能为{@code null}，也不能是空字符串。
 	 * <pre class="code">
 	 * Assert.hasLength(account.getName(),
-	 *     () -&gt; "Name for account '" + account.getId() + "' must not be empty");
+	 *     () -&gt; "帐户 '" + account.getId() + "' 的名称不能为空");
 	 * </pre>
-	 * @param text the String to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the text is empty
+	 * @param text 要检查的字符串
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果文本为空
 	 * @since 5.0
 	 * @see StringUtils#hasLength
 	 */
@@ -269,24 +251,24 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that the given String is not empty; that is,
-	 * it must not be {@code null} and not the empty String.
-	 * @deprecated as of 4.3.7, in favor of {@link #hasLength(String, String)};
-	 * to be removed in 6.1
+	 * 断言给定的字符串不为空；也就是说，
+	 * 它不能为{@code null}，也不能是空字符串。
+	 * @deprecated 自4.3.7起，改用{@link #hasLength(String, String)}；
+	 * 在6.1中删除
 	 */
 	@Deprecated(forRemoval = true)
 	public static void hasLength(@Nullable String text) {
 		hasLength(text,
-				"[Assertion failed] - this String argument must have length; it must not be null or empty");
+				"[断言失败] - 此字符串参数必须有长度；它不能为null或空");
 	}
 
 	/**
-	 * Assert that the given String contains valid text content; that is, it must not
-	 * be {@code null} and must contain at least one non-whitespace character.
-	 * <pre class="code">Assert.hasText(name, "'name' must not be empty");</pre>
-	 * @param text the String to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the text does not contain valid text content
+	 * 断言给定的字符串包含有效的文本内容；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个非空白字符。
+	 * <pre class="code">Assert.hasText(name, "'name' 不能为空");</pre>
+	 * @param text 要检查的字符串
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果文本不包含有效的文本内容
 	 * @see StringUtils#hasText
 	 */
 	public static void hasText(@Nullable String text, String message) {
@@ -296,16 +278,15 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that the given String contains valid text content; that is, it must not
-	 * be {@code null} and must contain at least one non-whitespace character.
+	 * 断言给定的字符串包含有效的文本内容；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个非空白字符。
 	 * <pre class="code">
 	 * Assert.hasText(account.getName(),
-	 *     () -&gt; "Name for account '" + account.getId() + "' must not be empty");
+	 *     () -&gt; "帐户 '" + account.getId() + "' 的名称不能为空");
 	 * </pre>
-	 * @param text the String to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the text does not contain valid text content
+	 * @param text 要检查的字符串
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果文本不包含有效的文本内容
 	 * @since 5.0
 	 * @see StringUtils#hasText
 	 */
@@ -316,24 +297,24 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that the given String contains valid text content; that is, it must not
-	 * be {@code null} and must contain at least one non-whitespace character.
-	 * @deprecated as of 4.3.7, in favor of {@link #hasText(String, String)};
-	 * to be removed in 6.1
+	 * 断言给定的字符串包含有效的文本内容；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个非空白字符。
+	 * @deprecated 自4.3.7起，改用{@link #hasText(String, String)}；
+	 * 在6.1中删除
 	 */
 	@Deprecated(forRemoval = true)
 	public static void hasText(@Nullable String text) {
 		hasText(text,
-				"[Assertion failed] - this String argument must have text; it must not be null, empty, or blank");
+				"[断言失败] - 此字符串参数必须有文本；它不能为null、空或仅包含空白字符");
 	}
 
 	/**
-	 * Assert that the given text does not contain the given substring.
-	 * <pre class="code">Assert.doesNotContain(name, "rod", "Name must not contain 'rod'");</pre>
-	 * @param textToSearch the text to search
-	 * @param substring the substring to find within the text
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the text contains the substring
+	 * 断言给定的文本不包含给定的子字符串。
+	 * <pre class="code">Assert.doesNotContain(name, "rod", "名称不能包含'rod'");</pre>
+	 * @param textToSearch 要搜索的文本
+	 * @param substring 要在文本中查找的子字符串
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果文本包含子字符串
 	 */
 	public static void doesNotContain(@Nullable String textToSearch, String substring, String message) {
 		if (StringUtils.hasLength(textToSearch) && StringUtils.hasLength(substring) &&
@@ -343,15 +324,14 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that the given text does not contain the given substring.
+	 * 断言给定的文本不包含给定的子字符串。
 	 * <pre class="code">
-	 * Assert.doesNotContain(name, forbidden, () -&gt; "Name must not contain '" + forbidden + "'");
+	 * Assert.doesNotContain(name, "rod", () -&gt; "名称不能包含'rod'");
 	 * </pre>
-	 * @param textToSearch the text to search
-	 * @param substring the substring to find within the text
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the text contains the substring
+	 * @param textToSearch 要搜索的文本
+	 * @param substring 要在文本中查找的子字符串
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果文本包含子字符串
 	 * @since 5.0
 	 */
 	public static void doesNotContain(@Nullable String textToSearch, String substring, Supplier<String> messageSupplier) {
@@ -362,23 +342,13 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that the given text does not contain the given substring.
-	 * @deprecated as of 4.3.7, in favor of {@link #doesNotContain(String, String, String)};
-	 * to be removed in 6.1
-	 */
-	@Deprecated(forRemoval = true)
-	public static void doesNotContain(@Nullable String textToSearch, String substring) {
-		doesNotContain(textToSearch, substring,
-				() -> "[Assertion failed] - this String argument must not contain the substring [" + substring + "]");
-	}
-
-	/**
-	 * Assert that an array contains elements; that is, it must not be
-	 * {@code null} and must contain at least one element.
-	 * <pre class="code">Assert.notEmpty(array, "The array must contain elements");</pre>
-	 * @param array the array to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the object array is {@code null} or contains no elements
+	 * 断言数组包含元素；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个元素。
+	 * <pre class="code">Assert.notEmpty(array, "数组必须包含元素");</pre>
+	 * @param array 要检查的数组
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果数组是{@code null}或
+	 * 不包含元素
 	 */
 	public static void notEmpty(@Nullable Object[] array, String message) {
 		if (ObjectUtils.isEmpty(array)) {
@@ -387,15 +357,15 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that an array contains elements; that is, it must not be
-	 * {@code null} and must contain at least one element.
+	 * 断言数组包含元素；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个元素。
 	 * <pre class="code">
-	 * Assert.notEmpty(array, () -&gt; "The " + arrayType + " array must contain elements");
+	 * Assert.notEmpty(array, () -&gt; "数组 " + arrayType + " 必须包含元素");
 	 * </pre>
-	 * @param array the array to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the object array is {@code null} or contains no elements
+	 * @param array 要检查的数组
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果数组是{@code null}或
+	 * 不包含元素
 	 * @since 5.0
 	 */
 	public static void notEmpty(@Nullable Object[] array, Supplier<String> messageSupplier) {
@@ -405,23 +375,24 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that an array contains elements; that is, it must not be
-	 * {@code null} and must contain at least one element.
-	 * @deprecated as of 4.3.7, in favor of {@link #notEmpty(Object[], String)};
-	 * to be removed in 6.1
+	 * 断言数组包含元素；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个元素。
+	 * @deprecated 自4.3.7起，改用{@link #notEmpty(Object[], String)}；
+	 * 在6.1中删除
 	 */
 	@Deprecated(forRemoval = true)
 	public static void notEmpty(@Nullable Object[] array) {
-		notEmpty(array, "[Assertion failed] - this array must not be empty: it must contain at least 1 element");
+		notEmpty(array,
+				"[断言失败] - 这个数组不能为空：它必须至少包含1个元素");
 	}
 
 	/**
-	 * Assert that an array contains no {@code null} elements.
-	 * <p>Note: Does not complain if the array is empty!
-	 * <pre class="code">Assert.noNullElements(array, "The array must contain non-null elements");</pre>
-	 * @param array the array to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the object array contains a {@code null} element
+	 * 断言数组不包含{@code null}元素。
+	 * <p>注意：如果数组为空，不会抱怨！
+	 * <pre class="code">Assert.noNullElements(array, "数组必须包含非空元素");</pre>
+	 * @param array 要检查的数组
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果对象数组包含{@code null}元素
 	 */
 	public static void noNullElements(@Nullable Object[] array, String message) {
 		if (array != null) {
@@ -434,15 +405,14 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that an array contains no {@code null} elements.
-	 * <p>Note: Does not complain if the array is empty!
+	 * 断言数组不包含{@code null}元素。
+	 * <p>注意：如果数组为空，不会抱怨！
 	 * <pre class="code">
-	 * Assert.noNullElements(array, () -&gt; "The " + arrayType + " array must contain non-null elements");
+	 * Assert.noNullElements(array, () -&gt; "数组 " + arrayType + " 必须包含非空元素");
 	 * </pre>
-	 * @param array the array to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the object array contains a {@code null} element
+	 * @param array 要检查的数组
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果对象数组包含{@code null}元素
 	 * @since 5.0
 	 */
 	public static void noNullElements(@Nullable Object[] array, Supplier<String> messageSupplier) {
@@ -456,23 +426,23 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that an array contains no {@code null} elements.
-	 * @deprecated as of 4.3.7, in favor of {@link #noNullElements(Object[], String)};
-	 * to be removed in 6.1
+	 * 断言数组不包含{@code null}元素。
+	 * @deprecated 自4.3.7起，改用{@link #noNullElements(Object[], String)}；
+	 * 在6.1中删除
 	 */
 	@Deprecated(forRemoval = true)
 	public static void noNullElements(@Nullable Object[] array) {
-		noNullElements(array, "[Assertion failed] - this array must not contain any null elements");
+		noNullElements(array, "[断言失败] - 这个数组不能包含任何空元素");
 	}
 
 	/**
-	 * Assert that a collection contains elements; that is, it must not be
-	 * {@code null} and must contain at least one element.
-	 * <pre class="code">Assert.notEmpty(collection, "Collection must contain elements");</pre>
-	 * @param collection the collection to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the collection is {@code null} or
-	 * contains no elements
+	 * 断言集合包含元素；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个元素。
+	 * <pre class="code">Assert.notEmpty(collection, "集合必须包含元素");</pre>
+	 * @param collection 要检查的集合
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果集合是{@code null}或
+	 * 不包含元素
 	 */
 	public static void notEmpty(@Nullable Collection<?> collection, String message) {
 		if (CollectionUtils.isEmpty(collection)) {
@@ -481,84 +451,31 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that a collection contains elements; that is, it must not be
-	 * {@code null} and must contain at least one element.
+	 * 断言集合包含元素；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个元素。
 	 * <pre class="code">
-	 * Assert.notEmpty(collection, () -&gt; "The " + collectionType + " collection must contain elements");
+	 * Assert.notEmpty(collection, () -&gt; "集合 " + collectionType + " 必须包含元素");
 	 * </pre>
-	 * @param collection the collection to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the collection is {@code null} or
-	 * contains no elements
+	 * @param collection 要检查的集合
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果集合是{@code null}或
+	 * 不包含元素
 	 * @since 5.0
 	 */
-	public static void notEmpty(@Nullable Collection<?> collection, Supplier<String> messageSupplier) {
+	public static void notEmpty(@Nullable Collection<?> collection,Supplier<String> messageSupplier) {
 		if (CollectionUtils.isEmpty(collection)) {
 			throw new IllegalArgumentException(nullSafeGet(messageSupplier));
 		}
 	}
 
 	/**
-	 * Assert that a collection contains elements; that is, it must not be
-	 * {@code null} and must contain at least one element.
-	 * @deprecated as of 4.3.7, in favor of {@link #notEmpty(Collection, String)};
-	 * to be removed in 6.1
-	 */
-	@Deprecated(forRemoval = true)
-	public static void notEmpty(@Nullable Collection<?> collection) {
-		notEmpty(collection,
-				"[Assertion failed] - this collection must not be empty: it must contain at least 1 element");
-	}
-
-	/**
-	 * Assert that a collection contains no {@code null} elements.
-	 * <p>Note: Does not complain if the collection is empty!
-	 * <pre class="code">Assert.noNullElements(collection, "Collection must contain non-null elements");</pre>
-	 * @param collection the collection to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the collection contains a {@code null} element
-	 * @since 5.2
-	 */
-	public static void noNullElements(@Nullable Collection<?> collection, String message) {
-		if (collection != null) {
-			for (Object element : collection) {
-				if (element == null) {
-					throw new IllegalArgumentException(message);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Assert that a collection contains no {@code null} elements.
-	 * <p>Note: Does not complain if the collection is empty!
-	 * <pre class="code">
-	 * Assert.noNullElements(collection, () -&gt; "Collection " + collectionName + " must contain non-null elements");
-	 * </pre>
-	 * @param collection the collection to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the collection contains a {@code null} element
-	 * @since 5.2
-	 */
-	public static void noNullElements(@Nullable Collection<?> collection, Supplier<String> messageSupplier) {
-		if (collection != null) {
-			for (Object element : collection) {
-				if (element == null) {
-					throw new IllegalArgumentException(nullSafeGet(messageSupplier));
-				}
-			}
-		}
-	}
-
-	/**
-	 * Assert that a Map contains entries; that is, it must not be {@code null}
-	 * and must contain at least one entry.
-	 * <pre class="code">Assert.notEmpty(map, "Map must contain entries");</pre>
-	 * @param map the map to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the map is {@code null} or contains no entries
+	 * 断言映射包含条目；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个条目。
+	 * <pre class="code">Assert.notEmpty(map, "映射必须包含条目");</pre>
+	 * @param map 要检查的映射
+	 * @param message 如果断言失败，要使用的异常消息
+	 * @throws IllegalArgumentException 如果映射是{@code null}或
+	 * 不包含条目
 	 */
 	public static void notEmpty(@Nullable Map<?, ?> map, String message) {
 		if (CollectionUtils.isEmpty(map)) {
@@ -567,15 +484,15 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that a Map contains entries; that is, it must not be {@code null}
-	 * and must contain at least one entry.
+	 * 断言映射包含条目；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个条目。
 	 * <pre class="code">
-	 * Assert.notEmpty(map, () -&gt; "The " + mapType + " map must contain entries");
+	 * Assert.notEmpty(map, () -&gt; "映射 " + mapType + " 必须包含条目");
 	 * </pre>
-	 * @param map the map to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails
-	 * @throws IllegalArgumentException if the map is {@code null} or contains no entries
+	 * @param map 要检查的映射
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者
+	 * @throws IllegalArgumentException 如果映射是{@code null}或
+	 * 不包含条目
 	 * @since 5.0
 	 */
 	public static void notEmpty(@Nullable Map<?, ?> map, Supplier<String> messageSupplier) {
@@ -585,109 +502,105 @@ public abstract class Assert {
 	}
 
 	/**
-	 * Assert that a Map contains entries; that is, it must not be {@code null}
-	 * and must contain at least one entry.
-	 * @deprecated as of 4.3.7, in favor of {@link #notEmpty(Map, String)};
-	 * to be removed in 6.1
+	 * 断言映射包含条目；也就是说，它必须不是
+	 * {@code null}，并且必须至少包含一个条目。
+	 * @deprecated 自4.3.7起，改用{@link #notEmpty(Map, String)}；
+	 * 在6.1中删除
 	 */
 	@Deprecated(forRemoval = true)
 	public static void notEmpty(@Nullable Map<?, ?> map) {
-		notEmpty(map, "[Assertion failed] - this map must not be empty; it must contain at least one entry");
+		notEmpty(map, "[断言失败] - 这个映射不能为空；它必须至少包含一个条目");
 	}
 
 	/**
-	 * Assert that the provided object is an instance of the provided class.
-	 * <pre class="code">Assert.instanceOf(Foo.class, foo, "Foo expected");</pre>
-	 * @param type the type to check against
-	 * @param obj the object to check
-	 * @param message a message which will be prepended to provide further context.
-	 * If it is empty or ends in ":" or ";" or "," or ".", a full exception message
-	 * will be appended. If it ends in a space, the name of the offending object's
-	 * type will be appended. In any other case, a ":" with a space and the name
-	 * of the offending object's type will be appended.
-	 * @throws IllegalArgumentException if the object is not an instance of type
+	 * 断言提供的对象是提供的类的实例。
+	 * <pre class="code">Assert.instanceOf(Foo.class, foo, "Foo类型预期");</pre>
+	 * @param type 要检查的类型
+	 * @param obj 要检查的对象
+	 * @param message 一个消息，将在前面添加以提供进一步的上下文。
+	 * 如果为空或以":"或";"或","或"."结尾，将附加完整的异常消息。
+	 * 如果以空格结尾，将附加违规对象的类型的名称。
+	 * 在任何其他情况下，将附加一个带有空格和违规对象类型名称的":"。
+	 * @throws IllegalArgumentException 如果对象不是类型的实例
 	 */
 	public static void isInstanceOf(Class<?> type, @Nullable Object obj, String message) {
-		notNull(type, "Type to check against must not be null");
+		notNull(type, "要检查的类型不能为空");
 		if (!type.isInstance(obj)) {
 			instanceCheckFailed(type, obj, message);
 		}
 	}
 
 	/**
-	 * Assert that the provided object is an instance of the provided class.
+	 * 断言提供的对象是提供的类的实例。
 	 * <pre class="code">
-	 * Assert.instanceOf(Foo.class, foo, () -&gt; "Processing " + Foo.class.getSimpleName() + ":");
+	 * Assert.instanceOf(Foo.class, foo, () -&gt; "处理 " + Foo.class.getSimpleName() + ":");
 	 * </pre>
-	 * @param type the type to check against
-	 * @param obj the object to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails. See {@link #isInstanceOf(Class, Object, String)} for details.
-	 * @throws IllegalArgumentException if the object is not an instance of type
+	 * @param type 要检查的类型
+	 * @param obj 要检查的对象
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者。有关详细信息，请参见{@link #isInstanceOf(Class, Object, String)}。
+	 * @throws IllegalArgumentException 如果对象不是类型的实例
 	 * @since 5.0
 	 */
 	public static void isInstanceOf(Class<?> type, @Nullable Object obj, Supplier<String> messageSupplier) {
-		notNull(type, "Type to check against must not be null");
+		notNull(type, "要检查的类型不能为空");
 		if (!type.isInstance(obj)) {
 			instanceCheckFailed(type, obj, nullSafeGet(messageSupplier));
 		}
 	}
 
 	/**
-	 * Assert that the provided object is an instance of the provided class.
+	 * 断言提供的对象是提供的类的实例。
 	 * <pre class="code">Assert.instanceOf(Foo.class, foo);</pre>
-	 * @param type the type to check against
-	 * @param obj the object to check
-	 * @throws IllegalArgumentException if the object is not an instance of type
+	 * @param type 要检查的类型
+	 * @param obj 要检查的对象
+	 * @throws IllegalArgumentException 如果对象不是类型的实例
 	 */
 	public static void isInstanceOf(Class<?> type, @Nullable Object obj) {
 		isInstanceOf(type, obj, "");
 	}
 
 	/**
-	 * Assert that {@code superType.isAssignableFrom(subType)} is {@code true}.
-	 * <pre class="code">Assert.isAssignable(Number.class, myClass, "Number expected");</pre>
-	 * @param superType the supertype to check against
-	 * @param subType the subtype to check
-	 * @param message a message which will be prepended to provide further context.
-	 * If it is empty or ends in ":" or ";" or "," or ".", a full exception message
-	 * will be appended. If it ends in a space, the name of the offending subtype
-	 * will be appended. In any other case, a ":" with a space and the name of the
-	 * offending subtype will be appended.
-	 * @throws IllegalArgumentException if the classes are not assignable
+	 * 断言{@code superType.isAssignableFrom(subType)}为{@code true}。
+	 * <pre class="code">Assert.isAssignable(Number.class, myClass, "Number类型预期");</pre>
+	 * @param superType 要检查的超类型
+	 * @param subType 要检查的子类型
+	 * @param message 一个消息，将在前面添加以提供进一步的上下文。
+	 * 如果为空或以":"或";"或","或"."结尾，将附加完整的异常消息。
+	 * 如果以空格结尾，将附加违规子类型的名称。
+	 * 在任何其他情况下，将附加一个带有空格和违规子类型名称的":"。
+	 * @throws IllegalArgumentException 如果类不可分配
 	 */
 	public static void isAssignable(Class<?> superType, @Nullable Class<?> subType, String message) {
-		notNull(superType, "Supertype to check against must not be null");
+		notNull(superType, "要检查的超类型不能为空");
 		if (subType == null || !superType.isAssignableFrom(subType)) {
 			assignableCheckFailed(superType, subType, message);
 		}
 	}
 
 	/**
-	 * Assert that {@code superType.isAssignableFrom(subType)} is {@code true}.
+	 * 断言{@code superType.isAssignableFrom(subType)}为{@code true}。
 	 * <pre class="code">
-	 * Assert.isAssignable(Number.class, myClass, () -&gt; "Processing " + myAttributeName + ":");
+	 * Assert.isAssignable(Number.class, myClass, () -&gt; "处理 " + myAttributeName + ":");
 	 * </pre>
-	 * @param superType the supertype to check against
-	 * @param subType the subtype to check
-	 * @param messageSupplier a supplier for the exception message to use if the
-	 * assertion fails. See {@link #isAssignable(Class, Class, String)} for details.
-	 * @throws IllegalArgumentException if the classes are not assignable
+	 * @param superType 要检查的超类型
+	 * @param subType 要检查的子类型
+	 * @param messageSupplier 如果断言失败，要使用的异常消息的提供者。有关详细信息，请参见{@link #isAssignable(Class, Class, String)}。
+	 * @throws IllegalArgumentException 如果类不可分配
 	 * @since 5.0
 	 */
 	public static void isAssignable(Class<?> superType, @Nullable Class<?> subType, Supplier<String> messageSupplier) {
-		notNull(superType, "Supertype to check against must not be null");
+		notNull(superType, "要检查的超类型不能为空");
 		if (subType == null || !superType.isAssignableFrom(subType)) {
 			assignableCheckFailed(superType, subType, nullSafeGet(messageSupplier));
 		}
 	}
 
 	/**
-	 * Assert that {@code superType.isAssignableFrom(subType)} is {@code true}.
+	 * 断言{@code superType.isAssignableFrom(subType)}为{@code true}。
 	 * <pre class="code">Assert.isAssignable(Number.class, myClass);</pre>
-	 * @param superType the supertype to check
-	 * @param subType the subtype to check
-	 * @throws IllegalArgumentException if the classes are not assignable
+	 * @param superType 要检查的超类型
+	 * @param subType 要检查的子类型
+	 * @throws IllegalArgumentException 如果类不可分配
 	 */
 	public static void isAssignable(Class<?> superType, Class<?> subType) {
 		isAssignable(superType, subType, "");
@@ -708,7 +621,7 @@ public abstract class Assert {
 			}
 		}
 		if (defaultMessage) {
-			result = result + ("Object of class [" + className + "] must be an instance of " + type);
+			result = result + ("对象的类 [" + className + "] 必须是 " + type + " 的实例");
 		}
 		throw new IllegalArgumentException(result);
 	}
@@ -726,7 +639,7 @@ public abstract class Assert {
 			}
 		}
 		if (defaultMessage) {
-			result = result + (subType + " is not assignable to " + superType);
+			result = result + (subType + " 不可分配给 " + superType);
 		}
 		throw new IllegalArgumentException(result);
 	}
