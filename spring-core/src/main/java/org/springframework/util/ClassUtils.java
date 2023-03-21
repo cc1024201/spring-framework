@@ -1,17 +1,15 @@
 /*
- * Copyright 2002-2023 the original author or authors.
+ * 版权 2002-2023 原作者或作者。
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * 根据Apache许可证2.0版（“许可证”）获得许可；
+ * 除非符合许可证，否则不得使用此文件。
+ * 您可以在以下位置获得许可证副本：
  *
  *      https://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 除非适用法律要求或书面同意，否则在许可证下分发的软件
+ * 将按“原样”基础分发，不附带任何明示或暗示的担保或条件。
+ * 有关许可证下允许和限制的特定语言，请参阅许可证。
  */
 
 package org.springframework.util;
@@ -42,8 +40,8 @@ import java.util.StringJoiner;
 import org.springframework.lang.Nullable;
 
 /**
- * Miscellaneous {@code java.lang.Class} utility methods.
- * Mainly for internal use within the framework.
+ * 杂项 {@code java.lang.Class} 实用方法。
+ * 主要用于框架内部使用。
  *
  * @author Juergen Hoeller
  * @author Keith Donald
@@ -55,66 +53,64 @@ import org.springframework.lang.Nullable;
  */
 public abstract class ClassUtils {
 
-	/** Suffix for array class names: {@code "[]"}. */
+	/** 数组类名的后缀：{@code "[]"}. */
 	public static final String ARRAY_SUFFIX = "[]";
 
-	/** Prefix for internal array class names: {@code "["}. */
+	/** 内部数组类名的前缀：{@code "["}.	 */
 	private static final String INTERNAL_ARRAY_PREFIX = "[";
 
-	/** Prefix for internal non-primitive array class names: {@code "[L"}. */
+	/** 内部非基元数组类名的前缀：{@code "[L"}. */
 	private static final String NON_PRIMITIVE_ARRAY_PREFIX = "[L";
 
-	/** A reusable empty class array constant. */
+	/** 可重用的空类数组常量。 */
 	private static final Class<?>[] EMPTY_CLASS_ARRAY = {};
 
-	/** The package separator character: {@code '.'}. */
+	/** 包分隔符字符：{@code '.'}. */
 	private static final char PACKAGE_SEPARATOR = '.';
 
-	/** The path separator character: {@code '/'}. */
+	/** 路径分隔符字符：{@code '/'}. */
 	private static final char PATH_SEPARATOR = '/';
 
-	/** The nested class separator character: {@code '$'}. */
+	/** 嵌套类分隔符字符：{@code '$'}. */
 	private static final char NESTED_CLASS_SEPARATOR = '$';
 
-	/** The CGLIB class separator: {@code "$$"}. */
+	/** CGLIB类分隔符：{@code "$$"}. */
 	public static final String CGLIB_CLASS_SEPARATOR = "$$";
 
-	/** The ".class" file suffix. */
+	/** ".class" 文件后缀。 */
 	public static final String CLASS_FILE_SUFFIX = ".class";
 
 
 	/**
-	 * Map with primitive wrapper type as key and corresponding primitive
-	 * type as value, for example: Integer.class -> int.class.
+	 * 具有原始包装类型为键和相应原始类型为值的映射，
+	 * 例如：Integer.class -> int.class.
 	 */
 	private static final Map<Class<?>, Class<?>> primitiveWrapperTypeMap = new IdentityHashMap<>(9);
 
 	/**
-	 * Map with primitive type as key and corresponding wrapper
-	 * type as value, for example: int.class -> Integer.class.
+	 * 具有原始类型为键和相应包装类型为值的映射，
+	 * 例如：int.class -> Integer.class.
 	 */
 	private static final Map<Class<?>, Class<?>> primitiveTypeToWrapperMap = new IdentityHashMap<>(9);
-
 	/**
-	 * Map with primitive type name as key and corresponding primitive
-	 * type as value, for example: "int" -> "int.class".
+	 * 具有原始类型名称为键和相应原始类型为值的映射，
+	 * 例如："int" -> "int.class".
 	 */
 	private static final Map<String, Class<?>> primitiveTypeNameMap = new HashMap<>(32);
 
 	/**
-	 * Map with common Java language class name as key and corresponding Class as value.
-	 * Primarily for efficient deserialization of remote invocations.
+	 * 以常见的Java语言类名为键，相应的Class为值的映射。
+	 * 主要用于远程调用的高效反序列化。
 	 */
 	private static final Map<String, Class<?>> commonClassCache = new HashMap<>(64);
 
 	/**
-	 * Common Java language interfaces which are supposed to be ignored
-	 * when searching for 'primary' user-level interfaces.
+	 * 在搜索“主要”用户级接口时应忽略的常见Java语言接口。
 	 */
 	private static final Set<Class<?>> javaLanguageInterfaces;
 
 	/**
-	 * Cache for equivalent methods on an interface implemented by the declaring class.
+	 * 在声明类实现的接口上的等效方法的缓存。
 	 */
 	private static final Map<Method, Method> interfaceMethodCache = new ConcurrentReferenceHashMap<>(256);
 
@@ -130,7 +126,7 @@ public abstract class ClassUtils {
 		primitiveWrapperTypeMap.put(Short.class, short.class);
 		primitiveWrapperTypeMap.put(Void.class, void.class);
 
-		// Map entry iteration is less expensive to initialize than forEach with lambdas
+		// 映射条目迭代比使用lambda的forEach初始化更便宜
 		for (Map.Entry<Class<?>, Class<?>> entry : primitiveWrapperTypeMap.entrySet()) {
 			primitiveTypeToWrapperMap.put(entry.getValue(), entry.getKey());
 			registerCommonClasses(entry.getKey());
@@ -161,7 +157,7 @@ public abstract class ClassUtils {
 
 
 	/**
-	 * Register the given common classes with the ClassUtils cache.
+	 * 使用ClassUtils缓存注册给定的常见类。
 	 */
 	private static void registerCommonClasses(Class<?>... commonClasses) {
 		for (Class<?> clazz : commonClasses) {
@@ -170,16 +166,14 @@ public abstract class ClassUtils {
 	}
 
 	/**
-	 * Return the default ClassLoader to use: typically the thread context
-	 * ClassLoader, if available; the ClassLoader that loaded the ClassUtils
-	 * class will be used as fallback.
-	 * <p>Call this method if you intend to use the thread context ClassLoader
-	 * in a scenario where you clearly prefer a non-null ClassLoader reference:
-	 * for example, for class path resource loading (but not necessarily for
-	 * {@code Class.forName}, which accepts a {@code null} ClassLoader
-	 * reference as well).
-	 * @return the default ClassLoader (only {@code null} if even the system
-	 * ClassLoader isn't accessible)
+	 * 返回要使用的默认ClassLoader：通常是线程上下文
+	 * ClassLoader（如果可用）；将使用加载ClassUtils类的ClassLoader作为备用。
+	 * <p>如果您打算在明确首选非空ClassLoader引用的场景中使用线程上下文ClassLoader，
+	 * 例如，用于类路径资源加载（但不一定是
+	 * {@code Class.forName}，它接受一个{@code null} ClassLoader
+	 * 引用）。
+	 * @return 默认的ClassLoader（仅在系统
+	 * ClassLoader也无法访问时为{@code null}）
 	 * @see Thread#getContextClassLoader()
 	 * @see ClassLoader#getSystemClassLoader()
 	 */
@@ -190,18 +184,18 @@ public abstract class ClassUtils {
 			cl = Thread.currentThread().getContextClassLoader();
 		}
 		catch (Throwable ex) {
-			// Cannot access thread context ClassLoader - falling back...
+			// 无法访问线程上下文ClassLoader - 返回...
 		}
 		if (cl == null) {
-			// No thread context class loader -> use class loader of this class.
+			// 没有线程上下文类加载器 -> 使用此类的类加载器。
 			cl = ClassUtils.class.getClassLoader();
 			if (cl == null) {
-				// getClassLoader() returning null indicates the bootstrap ClassLoader
+				// getClassLoader()返回null表示引导ClassLoader
 				try {
 					cl = ClassLoader.getSystemClassLoader();
 				}
 				catch (Throwable ex) {
-					// Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+					// 无法访问系统ClassLoader - 好吧，也许调用方可以使用null...
 				}
 			}
 		}
@@ -209,11 +203,10 @@ public abstract class ClassUtils {
 	}
 
 	/**
-	 * Override the thread context ClassLoader with the environment's bean ClassLoader
-	 * if necessary, i.e. if the bean ClassLoader is not equivalent to the thread
-	 * context ClassLoader already.
-	 * @param classLoaderToUse the actual ClassLoader to use for the thread context
-	 * @return the original thread context ClassLoader, or {@code null} if not overridden
+	 * 如果需要，使用环境的bean ClassLoader覆盖线程上下文ClassLoader，
+	 * 即，如果bean ClassLoader与线程上下文ClassLoader不相等。
+	 * @param classLoaderToUse 实际用于线程上下文的ClassLoader
+	 *	 * @return 原始线程上下文ClassLoader，如果没有覆盖，则返回{@code null}
 	 */
 	@Nullable
 	public static ClassLoader overrideThreadContextClassLoader(@Nullable ClassLoader classLoaderToUse) {
@@ -229,22 +222,22 @@ public abstract class ClassUtils {
 	}
 
 	/**
-	 * Replacement for {@code Class.forName()} that also returns Class instances
-	 * for primitives (e.g. "int") and array class names (e.g. "String[]").
-	 * Furthermore, it is also capable of resolving nested class names in Java source
-	 * style (e.g. "java.lang.Thread.State" instead of "java.lang.Thread$State").
-	 * @param name the name of the Class
-	 * @param classLoader the class loader to use
-	 * (may be {@code null}, which indicates the default class loader)
-	 * @return a class instance for the supplied name
-	 * @throws ClassNotFoundException if the class was not found
-	 * @throws LinkageError if the class file could not be loaded
+	 * 替换{@code Class.forName()}，同时返回原始类实例
+	 * （例如 "int"）和数组类名（例如 "String[]"）。
+	 * 此外，它还能够解析Java源代码中的嵌套类名
+	 * 样式（例如 "java.lang.Thread.State" 而不是 "java.lang.Thread$State"）。
+	 * @param name 类的名称
+	 * @param classLoader 要使用的类加载器
+	 * （可以是{@code null}，表示默认类加载器）
+	 * @return 为提供的名称提供一个类实例
+	 * @throws ClassNotFoundException 如果找不到类
+	 * @throws LinkageError 如果无法加载类文件
 	 * @see Class#forName(String, boolean, ClassLoader)
 	 */
 	public static Class<?> forName(String name, @Nullable ClassLoader classLoader)
 			throws ClassNotFoundException, LinkageError {
 
-		Assert.notNull(name, "Name must not be null");
+		Assert.notNull(name, "名称不能为空");
 
 		Class<?> clazz = resolvePrimitiveClassName(name);
 		if (clazz == null) {
@@ -254,27 +247,28 @@ public abstract class ClassUtils {
 			return clazz;
 		}
 
-		// "java.lang.String[]" style arrays
+		// "java.lang.String[]" 样式数组
 		if (name.endsWith(ARRAY_SUFFIX)) {
 			String elementClassName = name.substring(0, name.length() - ARRAY_SUFFIX.length());
 			Class<?> elementClass = forName(elementClassName, classLoader);
 			return Array.newInstance(elementClass, 0).getClass();
 		}
 
-		// "[Ljava.lang.String;" style arrays
+		// "[Ljava.lang.String;" 样式数组
 		if (name.startsWith(NON_PRIMITIVE_ARRAY_PREFIX) && name.endsWith(";")) {
 			String elementName = name.substring(NON_PRIMITIVE_ARRAY_PREFIX.length(), name.length() - 1);
 			Class<?> elementClass = forName(elementName, classLoader);
 			return Array.newInstance(elementClass, 0).getClass();
 		}
 
-		// "[[I" or "[[Ljava.lang.String;" style arrays
+		// "[[I" 或 "[[Ljava.lang.String;" 样式数组
 		if (name.startsWith(INTERNAL_ARRAY_PREFIX)) {
 			String elementName = name.substring(INTERNAL_ARRAY_PREFIX.length());
 			Class<?> elementClass = forName(elementName, classLoader);
 			return Array.newInstance(elementClass, 0).getClass();
 		}
 
+	
 		ClassLoader clToUse = classLoader;
 		if (clToUse == null) {
 			clToUse = getDefaultClassLoader();
@@ -291,7 +285,7 @@ public abstract class ClassUtils {
 					return Class.forName(nestedClassName, false, clToUse);
 				}
 				catch (ClassNotFoundException ex2) {
-					// Swallow - let original exception get through
+					// 忽略 - 让原始异常通过
 				}
 			}
 			throw ex;
@@ -299,21 +293,16 @@ public abstract class ClassUtils {
 	}
 
 	/**
-	 * Resolve the given class name into a Class instance. Supports
-	 * primitives (like "int") and array class names (like "String[]").
-	 * <p>This is effectively equivalent to the {@code forName}
-	 * method with the same arguments, with the only difference being
-	 * the exceptions thrown in case of class loading failure.
-	 * @param className the name of the Class
-	 * @param classLoader the class loader to use
-	 * (may be {@code null}, which indicates the default class loader)
-	 * @return a class instance for the supplied name
-	 * @throws IllegalArgumentException if the class name was not resolvable
-	 * (that is, the class could not be found or the class file could not be loaded)
-	 * @throws IllegalStateException if the corresponding class is resolvable but
-	 * there was a readability mismatch in the inheritance hierarchy of the class
-	 * (typically a missing dependency declaration in a Jigsaw module definition
-	 * for a superclass or interface implemented by the class to be loaded here)
+	 * 将给定的类名解析为一个Class实例。支持原始类型（如 "int"）和数组类名（如 "String[]"）。
+	 * <p>实际上，这与具有相同参数的{@code forName}方法等效，唯一的区别是在类加载失败时抛出的异常。
+	 * @param className 要解析的类名
+	 * @param classLoader 要使用的类加载器
+	 * （可以是{@code null}，表示默认类加载器）
+	 * @return 为提供的名称提供一个类实例
+	 * @throws IllegalArgumentException 如果类名无法解析
+	 * （即，找不到类或无法加载类文件）
+	 * @throws IllegalStateException 如果相应的类可解析，但类的继承层次结构中存在可读性不匹配
+	 * （通常是Jigsaw模块定义中缺少对由此处加载的类实现的超类或接口的依赖声明）
 	 * @see #forName(String, ClassLoader)
 	 */
 	public static Class<?> resolveClassName(String className, @Nullable ClassLoader classLoader)
@@ -323,30 +312,25 @@ public abstract class ClassUtils {
 			return forName(className, classLoader);
 		}
 		catch (IllegalAccessError err) {
-			throw new IllegalStateException("Readability mismatch in inheritance hierarchy of class [" +
-					className + "]: " + err.getMessage(), err);
+			throw new IllegalStateException("类 [" +
+					className + "] 的继承层次结构中的可读性不匹配: " + err.getMessage(), err);
 		}
 		catch (LinkageError err) {
-			throw new IllegalArgumentException("Unresolvable class definition for class [" + className + "]", err);
+			throw new IllegalArgumentException("无法解析类定义 [" + className + "]", err);
 		}
 		catch (ClassNotFoundException ex) {
-			throw new IllegalArgumentException("Could not find class [" + className + "]", ex);
+			throw new IllegalArgumentException("找不到类 [" + className + "]", ex);
 		}
 	}
 
 	/**
-	 * Determine whether the {@link Class} identified by the supplied name is present
-	 * and can be loaded. Will return {@code false} if either the class or
-	 * one of its dependencies is not present or cannot be loaded.
-	 * @param className the name of the class to check
-	 * @param classLoader the class loader to use
-	 * (may be {@code null} which indicates the default class loader)
-	 * @return whether the specified class is present (including all of its
-	 * superclasses and interfaces)
-	 * @throws IllegalStateException if the corresponding class is resolvable but
-	 * there was a readability mismatch in the inheritance hierarchy of the class
-	 * (typically a missing dependency declaration in a Jigsaw module definition
-	 * for a superclass or interface implemented by the class to be checked here)
+	 * 判断由提供的名称标识的{@link Class}是否存在并且可以加载。如果类或其依赖项不存在或无法加载，则返回{@code false}。
+	 * @param className 要检查的类名
+	 * @param classLoader 要使用的类加载器
+	 * （可以是{@code null}，表示默认类加载器）
+	 * @return 指定的类是否存在（包括其所有超类和接口）
+	 * @throws IllegalStateException 如果相应的类可解析，但类的继承层次结构中存在可读性不匹配
+	 * （通常是Jigsaw模块定义中缺少对由此处加载的类实现的超类或接口的依赖声明）
 	 */
 	public static boolean isPresent(String className, @Nullable ClassLoader classLoader) {
 		try {
@@ -354,11 +338,11 @@ public abstract class ClassUtils {
 			return true;
 		}
 		catch (IllegalAccessError err) {
-			throw new IllegalStateException("Readability mismatch in inheritance hierarchy of class [" +
-					className + "]: " + err.getMessage(), err);
+			throw new IllegalStateException("类 [" +
+					className + "] 的继承层次结构中的可读性不匹配: " + err.getMessage(), err);
 		}
 		catch (Throwable ex) {
-			// Typically ClassNotFoundException or NoClassDefFoundError...
+			// 通常是 ClassNotFoundException 或 NoClassDefFoundError...
 			return false;
 		}
 	}
